@@ -30,7 +30,7 @@
     -webkit-font-smoothing:antialiased;
   }
   h1,h2,h3,.num{font-family:'Space Grotesk',system-ui,sans-serif;}
-  .app{max-width:1040px;margin:0 auto;padding:0 0 48px;}
+  .app{max-width:1080px;margin:0 auto;padding:0 0 48px;}
 
   /* ---------- Header ---------- */
   .topbar{
@@ -54,7 +54,7 @@
   }
   .brand h1{margin:0;font-size:19px;font-weight:600;}
   .brand p{margin:2px 0 0;font-size:12.5px;opacity:0.78;}
-  .employee-switch{display:flex;gap:8px;align-items:center;}
+  .employee-switch{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
   .employee-switch select{
     background:rgba(255,255,255,0.12);
     color:#fff;
@@ -89,12 +89,13 @@
   }
   .card h3{margin:0 0 4px;font-size:15px;}
   .muted{color:var(--muted);font-size:13px;}
+  .helptext{color:var(--muted);font-size:12px;margin-top:4px;}
 
   /* ---------- Onboarding / profile form ---------- */
   .profile-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
   .profile-form .full{grid-column:1/-1;}
   label{font-size:12.5px;color:var(--muted);display:block;margin-bottom:5px;font-weight:500;}
-  input,select.field{
+  input,select.field,textarea{
     width:100%;
     padding:10px 12px;
     border:1px solid var(--border);
@@ -104,7 +105,8 @@
     color:var(--text);
     background:#fff;
   }
-  input:focus,select.field:focus,button:focus-visible{
+  textarea{resize:vertical;min-height:64px;}
+  input:focus,select.field:focus,textarea:focus,button:focus-visible{
     outline:2px solid var(--purple);
     outline-offset:1px;
   }
@@ -120,6 +122,7 @@
     font-family:inherit;
   }
   .btn-primary:hover{filter:brightness(1.06);}
+  .btn-primary:disabled{opacity:0.55;cursor:not-allowed;}
   .btn-secondary{
     background:#fff;
     color:var(--text);
@@ -132,6 +135,12 @@
     font-family:inherit;
   }
   .btn-secondary:hover{background:#F8F8FC;}
+  .btn-file{
+    display:inline-block;
+    background:#fff;color:var(--text);border:1px dashed var(--border);
+    border-radius:10px;padding:10px 14px;font-size:13.5px;cursor:pointer;text-align:center;
+  }
+  .btn-file:hover{background:#F8F8FC;}
 
   /* ---------- Active profile bar ---------- */
   .profile-bar{
@@ -139,10 +148,11 @@
   }
   .profile-bar .who b{font-size:15px;}
   .profile-bar .who span{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;}
+  .profile-bar .actions{display:flex;gap:8px;flex-wrap:wrap;}
 
   /* ---------- Grid: clock + manual ---------- */
   .grid2{display:grid;grid-template-columns:1.1fr 0.9fr;gap:18px;}
-  @media (max-width:760px){.grid2{grid-template-columns:1fr;} .profile-form{grid-template-columns:1fr;}}
+  @media (max-width:760px){.grid2{grid-template-columns:1fr;} .profile-form{grid-template-columns:1fr;} .manual-card form{grid-template-columns:1fr !important;}}
 
   /* Clock signature card */
   .clock-card{
@@ -197,14 +207,17 @@
   .manual-card .full{grid-column:1/-1;}
 
   /* ---------- Log table ---------- */
-  .log-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;}
-  .log-actions{display:flex;gap:8px;}
+  .log-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px;}
+  .log-actions{display:flex;gap:8px;flex-wrap:wrap;}
+  .storage-note{font-size:11.5px;color:var(--muted);margin-bottom:14px;}
+  .storage-note.warn{color:#B45309;font-weight:600;}
   table{width:100%;border-collapse:collapse;font-size:13.5px;}
   th{
     text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:0.4px;
     color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);
   }
   td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top;}
+  tr.detail-row td{background:#FAFAFD;border-bottom:1px solid var(--border);}
   tr:last-child td{border-bottom:none;}
   .type-tag{
     display:inline-block;padding:3px 9px;border-radius:999px;font-size:11.5px;font-weight:600;
@@ -216,6 +229,15 @@
     text-decoration:underline;font-family:inherit;
   }
   .row-delete:hover{color:var(--magenta);}
+  .evidence-badge{
+    background:none;border:1px solid var(--border);border-radius:999px;
+    padding:4px 10px;font-size:11.5px;cursor:pointer;font-family:inherit;color:var(--navy-2);
+  }
+  .evidence-badge:hover{background:#F8F8FC;}
+  .evidence-badge.none{color:var(--muted);cursor:default;border-style:dashed;}
+  .evidence-detail{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-start;padding:6px 4px;}
+  .evidence-photo{width:120px;height:120px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:zoom-in;}
+  .evidence-comment{flex:1;min-width:200px;font-size:13px;white-space:pre-wrap;}
   .empty-state{
     text-align:center;padding:36px 20px;color:var(--muted);font-size:13.5px;
   }
@@ -229,7 +251,7 @@
   .totals-bar .item b{font-size:20px;font-family:'Space Grotesk',sans-serif;}
   .totals-bar .value b{color:#7CF5C4;}
 
-  /* ---------- Modal (report) ---------- */
+  /* ---------- Overlay / modal (shared) ---------- */
   .overlay{
     position:fixed;inset:0;background:rgba(11,23,48,0.55);
     display:flex;align-items:flex-start;justify-content:center;
@@ -239,6 +261,7 @@
   .modal{
     background:#fff;border-radius:18px;max-width:720px;width:100%;padding:28px;
   }
+  .modal.narrow{max-width:480px;}
   .modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
   .modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted);}
   .report-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 20px;font-size:13.5px;margin:16px 0;}
@@ -250,6 +273,22 @@
     background:var(--bg);border-radius:12px;padding:14px 16px;margin-top:14px;
     font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;
   }
+  .report-session{border-bottom:1px solid var(--border);padding:12px 0;}
+  .report-session:last-child{border-bottom:none;}
+  .report-session .rs-top{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;}
+  .report-session .rs-top b{font-family:'Space Grotesk',sans-serif;}
+  .report-session img{max-width:160px;border-radius:10px;margin-top:6px;border:1px solid var(--border);}
+  .report-session .rs-comment{font-size:12.5px;color:var(--muted);margin-top:4px;white-space:pre-wrap;}
+
+  .evidence-preview{display:flex;align-items:center;gap:12px;margin-top:8px;}
+  .evidence-preview[hidden]{display:none;}
+  .evidence-preview img{width:72px;height:72px;object-fit:cover;border-radius:10px;border:1px solid var(--border);}
+
+  /* ---------- Consolidated summary ---------- */
+  .cons-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--border);font-size:13.5px;}
+  .cons-row:last-child{border-bottom:none;}
+  .cons-row .name{font-weight:600;}
+  .cons-row .sub{color:var(--muted);font-size:12px;}
 
   /* ---------- Legal params (collapsible) ---------- */
   details.legal{font-size:12.5px;color:var(--muted);}
@@ -262,6 +301,7 @@
     position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
     background:var(--navy);color:#fff;padding:10px 18px;border-radius:10px;
     font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:100;
+    max-width:90vw;text-align:center;
   }
   .toast.show{opacity:1;}
 
@@ -286,14 +326,15 @@
     </div>
     <div class="employee-switch">
       <select id="employeeSelect"></select>
-      <button class="btn-ghost" id="newEmployeeBtn">+ Nuevo empleado</button>
+      <button class="btn-ghost" id="newEmployeeBtn">+ Nuevo compañero</button>
+      <button class="btn-ghost" id="consolidatedBtn">Ver todos los compañeros</button>
     </div>
   </div>
 
   <div class="section" id="onboardingSection" hidden>
     <div class="card">
-      <h3>Registra el primer empleado</h3>
-      <p class="muted">Estos datos se usan para calcular el valor de la hora ordinaria (salario mensual ÷ divisor legal).</p>
+      <h3>Registra un compañero</h3>
+      <p class="muted">Cada compañero completa esto una sola vez en su propio celular o computador. Estos datos se usan para calcular el valor de la hora ordinaria (salario mensual ÷ divisor legal).</p>
       <div class="profile-form">
         <div><label>Cédula</label><input id="obCedula" placeholder="1020456789" inputmode="numeric" /></div>
         <div><label>Nombre completo</label><input id="obNombre" placeholder="María Fernanda Rojas Gómez" /></div>
@@ -305,8 +346,12 @@
             <option value="Integral">Integral (no aplica horas extra)</option>
           </select>
         </div>
-        <div class="full"><button class="btn-primary" id="obSaveBtn">Guardar empleado</button></div>
+        <div><label>Hora de entrada de tu jornada ordinaria (opcional)</label><input type="time" id="obEntrada" value="08:00"></div>
+        <div><label>Hora de salida de tu jornada ordinaria (opcional)</label><input type="time" id="obSalida" value="17:00"></div>
+        <div class="full helptext" style="margin:-4px 0 6px;">Con esto te avisamos si intentas marcar hora extra dentro de tu horario normal.</div>
+        <div class="full"><button class="btn-primary" id="obSaveBtn">Guardar compañero</button></div>
       </div>
+      <p class="helptext">¿Ya tienes un archivo de respaldo de otro compañero? <button class="row-delete" id="obImportLink" type="button">Importarlo aquí</button> en vez de crear uno nuevo.</p>
     </div>
   </div>
 
@@ -318,13 +363,19 @@
           <b id="profNombre"></b>
           <span id="profDetail"></span>
         </div>
-        <button class="btn-secondary" id="editProfileBtn">Editar datos</button>
+        <div class="actions">
+          <button class="btn-secondary" id="editProfileBtn">Editar datos</button>
+          <button class="btn-secondary" id="exportJsonBtn">Exportar respaldo (JSON)</button>
+          <button class="btn-secondary" id="importJsonBtn">Importar respaldo (JSON)</button>
+          <input type="file" id="importJsonInput" accept="application/json" hidden>
+        </div>
       </div>
+      <p class="helptext" style="padding:0 4px;">Cada compañero exporta su respaldo al terminar el período y te lo envía (correo, WhatsApp, USB…). Tú lo importas aquí para consolidar todos los reportes.</p>
     </div>
 
     <div class="section" id="editSection" hidden>
       <div class="card">
-        <h3>Editar empleado</h3>
+        <h3>Editar compañero</h3>
         <div class="profile-form">
           <div><label>Cédula</label><input id="edCedula" /></div>
           <div><label>Nombre completo</label><input id="edNombre" /></div>
@@ -336,6 +387,8 @@
               <option value="Integral">Integral (no aplica horas extra)</option>
             </select>
           </div>
+          <div><label>Hora de entrada jornada ordinaria</label><input type="time" id="edEntrada"></div>
+          <div><label>Hora de salida jornada ordinaria</label><input type="time" id="edSalida"></div>
           <div class="full" style="display:flex;gap:8px;">
             <button class="btn-primary" id="edSaveBtn">Guardar cambios</button>
             <button class="btn-secondary" id="edCancelBtn">Cancelar</button>
@@ -353,6 +406,7 @@
           <button class="clock-btn" id="clockBtn">Iniciar
 hora extra</button>
           <div class="elapsed" id="elapsedWrap" hidden>Transcurrido: <b id="elapsedTime">00:00:00</b></div>
+          <p class="muted" id="shiftHint" style="margin-top:10px;font-size:12px;"></p>
         </div>
 
         <div class="card manual-card">
@@ -362,8 +416,8 @@ hora extra</button>
             <div class="full"><label>Fecha</label><input type="date" id="manFecha" required></div>
             <div><label>Hora inicio</label><input type="time" id="manInicio" required></div>
             <div><label>Hora fin</label><input type="time" id="manFin" required></div>
-            <div class="full"><button class="btn-primary" type="submit">Agregar al período</button></div>
-            <div class="full muted" id="manHint" style="font-size:12px;">Si la hora fin es menor a la de inicio, se asume que cruza la medianoche.</div>
+            <div class="full"><button class="btn-primary" type="submit">Continuar</button></div>
+            <div class="full muted" id="manHint" style="font-size:12px;">Si la hora fin es menor a la de inicio, se asume que cruza la medianoche. En el siguiente paso agregas el comentario y la foto.</div>
           </form>
         </div>
       </div>
@@ -381,10 +435,11 @@ hora extra</button>
             <button class="btn-primary" id="reportBtn">Generar reporte liquidado</button>
           </div>
         </div>
+        <p class="storage-note" id="storageNote"></p>
         <div id="logTableWrap">
           <table id="logTable">
             <thead>
-              <tr><th>Fecha</th><th>Inicio</th><th>Fin</th><th>Duración</th><th>Tipo(s)</th><th>Valor</th><th></th></tr>
+              <tr><th>Fecha</th><th>Inicio</th><th>Fin</th><th>Duración</th><th>Tipo(s)</th><th>Valor</th><th>Evidencia</th><th></th></tr>
             </thead>
             <tbody id="logBody"></tbody>
           </table>
@@ -419,10 +474,46 @@ hora extra</button>
           Los festivos de 2026 (incluye el nuevo festivo del 13 de julio, Virgen de Chiquinquirá) están incorporados para
           la detección automática de recargo dominical/festivo. Límite legal: máx. 2 horas extra diarias y 12 semanales.
           Los empleados con salario integral no tienen derecho a horas extra ni recargos.
+          <br><br>
+          <b>Sobre los datos:</b> este liquidador no usa la nube. Cada compañero guarda su información en su propio
+          celular o computador (localStorage del navegador). Para consolidar varios compañeros, cada uno exporta su
+          respaldo (JSON) y quien liquida la nómina lo importa en su propio equipo.
+          <br><br>
+          <b>Jornada ordinaria vs. hora extra:</b> las horas extra son únicamente el tiempo trabajado por encima de la
+          jornada ordinaria ya pactada (esa jornada ya está cubierta por el salario mensual). Este liquidador no conoce
+          el contrato de cada persona: por eso pide el horario ordinario de cada compañero y advierte si intenta marcar
+          "hora extra" dentro de ese horario, pero la responsabilidad de solo marcar tiempo realmente adicional sigue
+          siendo de quien registra la hora.
         </div>
       </details>
     </div>
 
+  </div>
+</div>
+
+<!-- Evidence capture modal: shown after "Finalizar hora extra" or after the manual form -->
+<div class="overlay" id="evidenceOverlay" hidden>
+  <div class="modal narrow" id="evidenceModal">
+    <div class="modal-head">
+      <h2 style="margin:0;font-size:17px;">Agregar comentario y evidencia</h2>
+      <button class="modal-close" id="closeEvidenceBtn">✕</button>
+    </div>
+    <p class="muted" id="evidencePreview"></p>
+    <label>¿Qué hiciste en esta hora extra? (opcional)</label>
+    <textarea id="evComentario" placeholder="Ej: Soporte a incidente de producción, revisión de conciliación bancaria…"></textarea>
+    <div style="margin-top:12px;">
+      <label>Foto de evidencia (opcional)</label>
+      <label class="btn-file" for="evFoto">📷 Tomar o adjuntar foto</label>
+      <input type="file" id="evFoto" accept="image/*" capture="environment" hidden>
+      <div class="evidence-preview" id="evPreviewWrap" hidden>
+        <img id="evPreviewImg" alt="Evidencia adjunta">
+        <button class="row-delete" id="evRemovePhoto" type="button">quitar foto</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" id="evSaveBtn">Guardar registro</button>
+      <button class="btn-secondary" id="evCancelBtn">Cancelar</button>
+    </div>
   </div>
 </div>
 
@@ -440,10 +531,27 @@ hora extra</button>
       <span>Total a pagar</span>
       <span id="reportGrandTotal">$0</span>
     </div>
+    <h3 style="font-size:14px;margin:18px 0 4px;">Detalle y evidencia por registro</h3>
+    <div id="reportSessions"></div>
     <div class="modal-actions">
       <button class="btn-primary" id="printBtn">Imprimir / Guardar PDF</button>
       <button class="btn-secondary" id="csvBtn">Descargar CSV</button>
       <button class="btn-secondary" id="copyBtn">Copiar resumen</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="consolidatedOverlay" hidden>
+  <div class="modal" id="consolidatedModal">
+    <div class="modal-head">
+      <h2 style="margin:0;font-size:18px;">Resumen de todos los compañeros</h2>
+      <button class="modal-close" id="closeConsolidatedBtn">✕</button>
+    </div>
+    <p class="muted">Incluye solo a los compañeros cuyo respaldo hayas importado en este equipo, más el que tengas activo aquí.</p>
+    <div id="consolidatedBody"></div>
+    <div class="grand-total">
+      <span>Total general a pagar</span>
+      <span id="consolidatedGrandTotal">$0</span>
     </div>
   </div>
 </div>
@@ -484,6 +592,19 @@ hora extra</button>
       case 'dominical_nocturna': return 1 + 0.75 + recargoDominicalFor(d);
       default: return 1;
     }
+  }
+  function isWithinOrdinaryShift(date, horaEntrada, horaSalida){
+    if(!horaEntrada || !horaSalida) return false;
+    const [hIn, mIn] = horaEntrada.split(':').map(Number);
+    const [hOut, mOut] = horaSalida.split(':').map(Number);
+    if([hIn,mIn,hOut,mOut].some(function(n){ return isNaN(n); })) return false;
+    const minutesNow = date.getHours()*60 + date.getMinutes();
+    const minutesIn = hIn*60 + mIn;
+    const minutesOut = hOut*60 + mOut;
+    if(minutesIn <= minutesOut){
+      return minutesNow >= minutesIn && minutesNow < minutesOut;
+    }
+    return minutesNow >= minutesIn || minutesNow < minutesOut; // turno que cruza medianoche
   }
   function computeSession(startDate, endDate, salarioMensual){
     const totalMinutes = Math.round((endDate-startDate)/60000);
@@ -538,6 +659,8 @@ hora extra</button>
   let clockStartISO = null;
   let clockIntervalId = null;
   let liveClockIntervalId = null;
+  let pendingSession = null; // {start:Date, end:Date}
+  let pendingFotoDataUrl = null;
 
   const $ = (id) => document.getElementById(id);
 
@@ -545,13 +668,10 @@ hora extra</button>
     const t = $('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'), 2200);
+    setTimeout(()=>t.classList.remove('show'), 2600);
   }
 
-  // ================= STORAGE =================
-  // Usa window.storage (persistencia propia de Claude.ai) cuando está disponible.
-  // Si el archivo se aloja en un dominio propio, esa API no existe, así que cae
-  // automáticamente a localStorage del navegador para que el guardado siga funcionando.
+  // ================= STORAGE (Claude.ai storage, con respaldo a localStorage fuera de Claude.ai) =================
   const hasClaudeStorage = (typeof window !== 'undefined' && !!window.storage);
   const store = {
     async get(key){
@@ -576,28 +696,49 @@ hora extra</button>
   }
   async function saveEmployees(){
     const ok = await store.set('employees', JSON.stringify(employees));
-    if(!ok) showToast('No se pudo guardar la lista de empleados.');
+    if(!ok) showToast('No se pudo guardar la lista de compañeros.');
   }
   async function loadSessions(cedula){
     const v = await store.get('sessions:'+cedula);
     sessions = v ? JSON.parse(v) : [];
   }
-  async function saveSessions(){
-    const ok = await store.set('sessions:'+activeCedula, JSON.stringify(sessions));
+  async function saveSessionsFor(cedula, sess){
+    const ok = await store.set('sessions:'+cedula, JSON.stringify(sess));
     if(!ok) showToast('No se pudo guardar el registro.');
   }
-  async function loadLastActive(){
-    return await store.get('last-active');
-  }
-  async function saveLastActive(cedula){
-    await store.set('last-active', cedula);
+  async function saveSessions(){ await saveSessionsFor(activeCedula, sessions); }
+  async function loadLastActive(){ return await store.get('last-active'); }
+  async function saveLastActive(cedula){ await store.set('last-active', cedula); }
+
+  // ================= IMAGE COMPRESSION =================
+  function compressImage(file, maxWidth, quality){
+    maxWidth = maxWidth || 900; quality = quality || 0.7;
+    return new Promise(function(resolve, reject){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const img = new Image();
+        img.onload = function(){
+          let w = img.width, h = img.height;
+          if(w > maxWidth){ h = Math.round(h * maxWidth / w); w = maxWidth; }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.onerror = function(){ reject(new Error('No se pudo leer la imagen.')); };
+        img.src = e.target.result;
+      };
+      reader.onerror = function(){ reject(new Error('No se pudo leer el archivo.')); };
+      reader.readAsDataURL(file);
+    });
   }
 
   // ================= RENDER: employee select =================
   function renderEmployeeSelect(){
     const sel = $('employeeSelect');
     sel.innerHTML = '';
-    employees.forEach(e=>{
+    employees.forEach(function(e){
       const opt = document.createElement('option');
       opt.value = e.cedula;
       opt.textContent = e.nombre + ' · ' + e.cedula;
@@ -607,13 +748,29 @@ hora extra</button>
   }
 
   function renderProfile(){
-    const emp = employees.find(e=>e.cedula===activeCedula);
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
     if(!emp) return;
     $('profNombre').textContent = emp.nombre;
     $('profDetail').textContent = 'Cédula ' + emp.cedula + ' · Salario mensual ' + fmtCOP(emp.salario) + ' · ' + emp.tipoSalario;
+    const hint = $('shiftHint');
+    if(emp.horaEntrada && emp.horaSalida){
+      hint.textContent = 'Tu jornada ordinaria: ' + emp.horaEntrada + ' – ' + emp.horaSalida + '. Marca hora extra solo después de este horario.';
+    } else {
+      hint.textContent = 'No registraste tu horario ordinario. Agrégalo en "Editar datos" para recibir un aviso si marcas hora extra dentro de tu jornada.';
+    }
   }
 
   // ================= RENDER: log table =================
+  function renderStorageNote(){
+    let bytes = 0;
+    try{ bytes = new Blob([JSON.stringify(sessions)]).size; }catch(e){ bytes = JSON.stringify(sessions).length; }
+    const mb = bytes / (1024*1024);
+    const note = $('storageNote');
+    note.textContent = 'Uso aproximado en este dispositivo: ' + mb.toFixed(2) + ' MB (de ~5 MB disponibles en la mayoría de navegadores).';
+    note.classList.toggle('warn', mb > 3.5);
+    if(mb > 3.5) note.textContent += ' Exporta y vacía el período pronto para evitar quedarte sin espacio.';
+  }
+
   function renderLog(){
     const body = $('logBody');
     body.innerHTML = '';
@@ -625,16 +782,17 @@ hora extra</button>
     } else {
       emptyState.hidden = true;
       $('logTable').hidden = false;
-      const dates = sessions.map(s=>s.start.slice(0,10)).sort();
+      const dates = sessions.map(function(s){ return s.start.slice(0,10); }).sort();
       $('periodHint').textContent = sessions.length + ' registro(s) · período ' + fmtDateShort(dates[0]) + ' – ' + fmtDateShort(dates[dates.length-1]);
-      sessions.slice().sort((a,b)=> a.start.localeCompare(b.start)).forEach(s=>{
+      sessions.slice().sort(function(a,b){ return a.start.localeCompare(b.start); }).forEach(function(s){
         const tr = document.createElement('tr');
-        const tipos = [...new Set(s.detail.map(d=>d.bucketKey))];
-        const tagsHtml = tipos.map(t=>{
+        const tipos = Array.from(new Set(s.detail.map(function(d){ return d.bucketKey; })));
+        const tagsHtml = tipos.map(function(t){
           const isFest = t.indexOf('dominical')===0;
           const shortLabel = t==='diurna'?'Diurna':t==='nocturna'?'Nocturna':t==='dominical_diurna'?'Diurna dom/fest':'Nocturna dom/fest';
           return '<span class="type-tag'+(isFest?' festivo':'')+'">'+shortLabel+'</span>';
         }).join('');
+        const hasEvidence = !!(s.comentario || s.foto);
         tr.innerHTML =
           '<td>'+fmtDateShort(s.start.slice(0,10))+'</td>'+
           '<td>'+fmtTime(s.start)+'</td>'+
@@ -642,16 +800,35 @@ hora extra</button>
           '<td>'+fmtHours(s.totalHours)+'</td>'+
           '<td>'+tagsHtml+'</td>'+
           '<td>'+fmtCOP(s.totalValor)+'</td>'+
+          '<td>'+(hasEvidence ? '<button class="evidence-badge" data-toggle="'+s.id+'">📎 Ver</button>' : '<span class="evidence-badge none">— </span>')+'</td>'+
           '<td><button class="row-delete" data-id="'+s.id+'">eliminar</button></td>';
         body.appendChild(tr);
+
+        if(hasEvidence){
+          const detailTr = document.createElement('tr');
+          detailTr.className = 'detail-row';
+          detailTr.setAttribute('data-detail-for', s.id);
+          detailTr.hidden = true;
+          const photoHtml = s.foto ? '<img class="evidence-photo" src="'+s.foto+'" data-zoom="'+s.id+'" alt="Evidencia">' : '';
+          const commentHtml = s.comentario ? '<div class="evidence-comment">'+escapeHtml(s.comentario)+'</div>' : '<div class="evidence-comment muted">Sin comentario.</div>';
+          detailTr.innerHTML = '<td colspan="8"><div class="evidence-detail">'+photoHtml+commentHtml+'</div></td>';
+          body.appendChild(detailTr);
+        }
       });
     }
     renderTotals();
+    renderStorageNote();
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
   }
 
   function renderTotals(){
-    const totalHoras = sessions.reduce((a,s)=>a+s.totalHours,0);
-    const totalValor = sessions.reduce((a,s)=>a+s.totalValor,0);
+    const totalHoras = sessions.reduce(function(a,s){ return a+s.totalHours; },0);
+    const totalValor = sessions.reduce(function(a,s){ return a+s.totalValor; },0);
     $('totalHoras').textContent = fmtHours(totalHoras);
     $('totalValor').textContent = fmtCOP(totalValor);
   }
@@ -684,14 +861,19 @@ hora extra</button>
     $('elapsedTime').textContent = hh+':'+mm+':'+ss;
   }
 
-  async function handleClockClick(){
-    const emp = employees.find(e=>e.cedula===activeCedula);
+  function handleClockClick(){
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
     if(!emp) return;
     if(emp.tipoSalario === 'Integral'){
-      showToast('Los empleados con salario integral no tienen derecho a horas extra (Art. 132 CST).');
+      showToast('Los compañeros con salario integral no tienen derecho a horas extra (Art. 132 CST).');
       return;
     }
     if(!clockRunning){
+      const now = new Date();
+      if(isWithinOrdinaryShift(now, emp.horaEntrada, emp.horaSalida)){
+        const proceed = confirm('Esto está dentro de tu jornada ordinaria registrada ('+emp.horaEntrada+'–'+emp.horaSalida+'). Las horas extra solo aplican después de tu horario normal. ¿Seguro que quieres continuar?');
+        if(!proceed) return;
+      }
       clockRunning = true;
       clockStartISO = new Date().toISOString();
       $('clockBtn').textContent = 'Finalizar\nhora extra';
@@ -707,17 +889,65 @@ hora extra</button>
       $('elapsedWrap').hidden = true;
       const start = new Date(clockStartISO);
       const end = new Date();
-      await addSession(start, end);
+      openEvidenceModal(start, end);
     }
   }
 
-  async function addSession(start, end){
-    const emp = employees.find(e=>e.cedula===activeCedula);
-    const result = computeSession(start, end, emp.salario);
-    if(!result){
+  // ================= EVIDENCE MODAL =================
+  function openEvidenceModal(start, end){
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    const preview = computeSession(start, end, emp.salario);
+    if(!preview){
       showToast('La hora de fin debe ser posterior a la de inicio.');
       return;
     }
+    pendingSession = {start:start, end:end, preview:preview};
+    pendingFotoDataUrl = null;
+    $('evComentario').value = '';
+    $('evPreviewWrap').hidden = true;
+    $('evFoto').value = '';
+    $('evidencePreview').textContent = fmtHours(preview.totalHours) + ' · ' + fmtCOP(preview.totalValor) +
+      ' · ' + fmtDateShort(start.toISOString().slice(0,10)) + ' ' + fmtTime(start.toISOString()) + '–' + fmtTime(end.toISOString());
+    $('evidenceOverlay').hidden = false;
+  }
+  function closeEvidenceModal(){
+    $('evidenceOverlay').hidden = true;
+    pendingSession = null;
+    pendingFotoDataUrl = null;
+  }
+
+  $('closeEvidenceBtn').addEventListener('click', closeEvidenceModal);
+  $('evCancelBtn').addEventListener('click', closeEvidenceModal);
+
+  $('evFoto').addEventListener('change', async function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    try{
+      const dataUrl = await compressImage(file);
+      pendingFotoDataUrl = dataUrl;
+      $('evPreviewImg').src = dataUrl;
+      $('evPreviewWrap').hidden = false;
+    }catch(err){
+      showToast('No se pudo procesar la foto. Intenta con otra imagen.');
+    }
+  });
+  $('evRemovePhoto').addEventListener('click', function(){
+    pendingFotoDataUrl = null;
+    $('evFoto').value = '';
+    $('evPreviewWrap').hidden = true;
+  });
+
+  $('evSaveBtn').addEventListener('click', async function(){
+    if(!pendingSession) return;
+    const comentario = $('evComentario').value.trim();
+    await addSession(pendingSession.start, pendingSession.end, comentario, pendingFotoDataUrl);
+    closeEvidenceModal();
+  });
+
+  async function addSession(start, end, comentario, fotoDataUrl){
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    const result = computeSession(start, end, emp.salario);
+    if(!result) return;
     sessions.push({
       id: 'S'+Date.now()+Math.floor(Math.random()*1000),
       start: start.toISOString(),
@@ -725,7 +955,9 @@ hora extra</button>
       salarioUsed: emp.salario,
       totalHours: result.totalHours,
       totalValor: result.totalValor,
-      detail: result.detail
+      detail: result.detail,
+      comentario: comentario || '',
+      foto: fotoDataUrl || null
     });
     await saveSessions();
     renderLog();
@@ -733,7 +965,7 @@ hora extra</button>
   }
 
   // ================= MANUAL FORM =================
-  $('manualForm').addEventListener('submit', async function(e){
+  $('manualForm').addEventListener('submit', function(e){
     e.preventDefault();
     const fecha = $('manFecha').value;
     const inicio = $('manInicio').value;
@@ -742,23 +974,38 @@ hora extra</button>
     const start = new Date(fecha+'T'+inicio+':00');
     let end = new Date(fecha+'T'+fin+':00');
     if(end <= start) end = new Date(end.getTime() + 24*3600*1000); // cruza medianoche
-    await addSession(start, end);
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    if(emp && isWithinOrdinaryShift(start, emp.horaEntrada, emp.horaSalida)){
+      const proceed = confirm('La hora de inicio ('+inicio+') está dentro de tu jornada ordinaria registrada ('+emp.horaEntrada+'–'+emp.horaSalida+'). ¿Seguro que quieres continuar?');
+      if(!proceed) return;
+    }
+    openEvidenceModal(start, end);
     $('manualForm').reset();
   });
 
-  // ================= DELETE SESSION =================
+  // ================= LOG TABLE INTERACTIONS =================
   $('logBody').addEventListener('click', async function(e){
-    if(e.target.classList.contains('row-delete')){
+    if(e.target.classList.contains('row-delete') && e.target.dataset.id){
       const id = e.target.getAttribute('data-id');
-      sessions = sessions.filter(s=>s.id!==id);
+      sessions = sessions.filter(function(s){ return s.id!==id; });
       await saveSessions();
       renderLog();
+      return;
+    }
+    if(e.target.classList.contains('evidence-badge') && e.target.dataset.toggle){
+      const id = e.target.getAttribute('data-toggle');
+      const row = document.querySelector('tr.detail-row[data-detail-for="'+id+'"]');
+      if(row) row.hidden = !row.hidden;
+      return;
+    }
+    if(e.target.dataset.zoom){
+      window.open(e.target.src, '_blank');
     }
   });
 
   $('clearBtn').addEventListener('click', async function(){
     if(sessions.length===0) return;
-    if(!confirm('¿Vaciar todos los registros del período actual para este empleado? Esta acción no se puede deshacer.')) return;
+    if(!confirm('¿Vaciar todos los registros del período actual para este compañero? Exporta primero el respaldo si no lo has hecho. Esta acción no se puede deshacer.')) return;
     sessions = [];
     await saveSessions();
     renderLog();
@@ -769,6 +1016,7 @@ hora extra</button>
     $('onboardingSection').hidden = false;
     $('mainSections').hidden = true;
     $('obCedula').value=''; $('obNombre').value=''; $('obSalario').value=''; $('obTipo').value='Ordinario';
+    $('obEntrada').value='08:00'; $('obSalida').value='17:00';
   });
 
   $('obSaveBtn').addEventListener('click', async function(){
@@ -776,15 +1024,17 @@ hora extra</button>
     const nombre = $('obNombre').value.trim();
     const salario = parseFloat($('obSalario').value.replace(/[^0-9.]/g,''));
     const tipoSalario = $('obTipo').value;
+    const horaEntrada = $('obEntrada').value || '';
+    const horaSalida = $('obSalida').value || '';
     if(!cedula || !nombre || !salario){
       showToast('Completa cédula, nombre y salario.');
       return;
     }
-    if(employees.some(e=>e.cedula===cedula)){
-      showToast('Ya existe un empleado con esa cédula.');
+    if(employees.some(function(e){ return e.cedula===cedula; })){
+      showToast('Ya existe un compañero con esa cédula.');
       return;
     }
-    employees.push({cedula, nombre, salario, tipoSalario});
+    employees.push({cedula:cedula, nombre:nombre, salario:salario, tipoSalario:tipoSalario, horaEntrada:horaEntrada, horaSalida:horaSalida});
     await saveEmployees();
     activeCedula = cedula;
     await saveLastActive(activeCedula);
@@ -796,6 +1046,10 @@ hora extra</button>
     $('mainSections').hidden = false;
   });
 
+  $('obImportLink').addEventListener('click', function(){
+    $('importJsonInput').click();
+  });
+
   $('employeeSelect').addEventListener('change', async function(){
     activeCedula = this.value;
     await saveLastActive(activeCedula);
@@ -805,26 +1059,29 @@ hora extra</button>
   });
 
   $('editProfileBtn').addEventListener('click', function(){
-    const emp = employees.find(e=>e.cedula===activeCedula);
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
     $('edCedula').value = emp.cedula;
     $('edNombre').value = emp.nombre;
     $('edSalario').value = emp.salario;
     $('edTipo').value = emp.tipoSalario;
+    $('edEntrada').value = emp.horaEntrada || '';
+    $('edSalida').value = emp.horaSalida || '';
     $('editSection').hidden = false;
   });
   $('edCancelBtn').addEventListener('click', function(){ $('editSection').hidden = true; });
   $('edSaveBtn').addEventListener('click', async function(){
-    const idx = employees.findIndex(e=>e.cedula===activeCedula);
+    const idx = employees.findIndex(function(e){ return e.cedula===activeCedula; });
     if(idx<0) return;
     const newCedula = $('edCedula').value.trim();
     employees[idx] = {
       cedula: newCedula,
       nombre: $('edNombre').value.trim(),
       salario: parseFloat($('edSalario').value.replace(/[^0-9.]/g,'')),
-      tipoSalario: $('edTipo').value
+      tipoSalario: $('edTipo').value,
+      horaEntrada: $('edEntrada').value || '',
+      horaSalida: $('edSalida').value || ''
     };
     if(newCedula !== activeCedula){
-      // move sessions to new key
       await store.set('sessions:'+newCedula, JSON.stringify(sessions));
       activeCedula = newCedula;
       await saveLastActive(activeCedula);
@@ -836,35 +1093,102 @@ hora extra</button>
     showToast('Datos actualizados.');
   });
 
+  // ================= EXPORT / IMPORT JSON (consolidación sin nube) =================
+  $('exportJsonBtn').addEventListener('click', function(){
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    if(!emp){ showToast('Selecciona un compañero primero.'); return; }
+    const payload = {version:1, exportedAt:new Date().toISOString(), employee:emp, sessions:sessions};
+    const blob = new Blob([JSON.stringify(payload)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'respaldo_horas_extras_'+emp.cedula+'.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Respaldo descargado. Envíaselo a quien liquida la nómina.');
+  });
+
+  $('importJsonBtn').addEventListener('click', function(){ $('importJsonInput').click(); });
+
+  $('importJsonInput').addEventListener('change', async function(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    try{
+      const text = await file.text();
+      const payload = JSON.parse(text);
+      if(!payload || !payload.employee || !payload.employee.cedula || !Array.isArray(payload.sessions)){
+        showToast('El archivo no tiene el formato esperado.');
+        return;
+      }
+      const cedula = payload.employee.cedula;
+      const idx = employees.findIndex(function(e){ return e.cedula===cedula; });
+      if(idx>=0) employees[idx] = payload.employee; else employees.push(payload.employee);
+      await saveEmployees();
+
+      const existingRaw = await store.get('sessions:'+cedula);
+      const existing = existingRaw ? JSON.parse(existingRaw) : [];
+      const byId = {};
+      existing.forEach(function(s){ byId[s.id] = s; });
+      payload.sessions.forEach(function(s){ byId[s.id] = s; });
+      const merged = Object.values(byId);
+      await saveSessionsFor(cedula, merged);
+
+      activeCedula = cedula;
+      await saveLastActive(activeCedula);
+      await loadSessions(activeCedula);
+      renderEmployeeSelect();
+      renderProfile();
+      renderLog();
+      $('onboardingSection').hidden = true;
+      $('mainSections').hidden = false;
+      showToast('Datos de '+payload.employee.nombre+' importados y consolidados.');
+    }catch(err){
+      showToast('No se pudo leer el archivo. Verifica que sea un respaldo exportado desde este liquidador.');
+    }
+    $('importJsonInput').value = '';
+  });
+
   // ================= REPORT MODAL =================
   $('reportBtn').addEventListener('click', function(){
     if(sessions.length===0){ showToast('No hay registros para liquidar.'); return; }
-    const emp = employees.find(e=>e.cedula===activeCedula);
-    const dates = sessions.map(s=>s.start.slice(0,10)).sort();
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    const dates = sessions.map(function(s){ return s.start.slice(0,10); }).sort();
     const periodo = fmtDateShort(dates[0]) + ' – ' + fmtDateShort(dates[dates.length-1]);
     $('reportSubtitle').textContent = 'Período: ' + periodo;
     $('reportHeader').innerHTML =
-      '<div><span>Empleado</span>'+emp.nombre+'</div>'+
+      '<div><span>Compañero</span>'+emp.nombre+'</div>'+
       '<div><span>Cédula</span>'+emp.cedula+'</div>'+
       '<div><span>Salario mensual</span>'+fmtCOP(emp.salario)+'</div>'+
       '<div><span>Registros</span>'+sessions.length+'</div>';
 
     const byType = {};
-    sessions.forEach(s=> s.detail.forEach(d=>{
+    sessions.forEach(function(s){ s.detail.forEach(function(d){
       if(!byType[d.bucketKey]) byType[d.bucketKey] = {hours:0, valor:0, label:d.label};
       byType[d.bucketKey].hours += d.hours;
       byType[d.bucketKey].valor += d.valor;
-    }));
+    }); });
     const order = ['diurna','nocturna','dominical_diurna','dominical_nocturna'];
     let breakdownHtml = '';
-    order.forEach(k=>{
+    order.forEach(function(k){
       if(byType[k]){
         breakdownHtml += '<div class="breakdown-row"><span>'+byType[k].label+' — '+fmtHours(byType[k].hours)+'</span><b>'+fmtCOP(byType[k].valor)+'</b></div>';
       }
     });
     $('reportBreakdown').innerHTML = breakdownHtml;
-    const total = sessions.reduce((a,s)=>a+s.totalValor,0);
+    const total = sessions.reduce(function(a,s){ return a+s.totalValor; },0);
     $('reportGrandTotal').textContent = fmtCOP(total);
+
+    const sorted = sessions.slice().sort(function(a,b){ return a.start.localeCompare(b.start); });
+    let sessionsHtml = '';
+    sorted.forEach(function(s){
+      const photoHtml = s.foto ? '<img src="'+s.foto+'" alt="Evidencia">' : '';
+      const commentHtml = s.comentario ? '<div class="rs-comment">'+escapeHtml(s.comentario)+'</div>' : '';
+      sessionsHtml += '<div class="report-session">'+
+        '<div class="rs-top"><span>'+fmtDateShort(s.start.slice(0,10))+' · '+fmtTime(s.start)+'–'+fmtTime(s.end)+' · '+fmtHours(s.totalHours)+'</span><b>'+fmtCOP(s.totalValor)+'</b></div>'+
+        commentHtml + photoHtml +
+        '</div>';
+    });
+    $('reportSessions').innerHTML = sessionsHtml || '<p class="muted">Sin registros.</p>';
 
     $('reportOverlay').hidden = false;
   });
@@ -872,16 +1196,17 @@ hora extra</button>
   $('printBtn').addEventListener('click', function(){ window.print(); });
 
   $('csvBtn').addEventListener('click', function(){
-    const emp = employees.find(e=>e.cedula===activeCedula);
-    let csv = 'Fecha,Inicio,Fin,Tipo de hora,Horas,Valor hora ordinaria,Factor,Valor a pagar\n';
-    sessions.slice().sort((a,b)=>a.start.localeCompare(b.start)).forEach(s=>{
-      s.detail.forEach(d=>{
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    let csv = 'Fecha,Inicio,Fin,Tipo de hora,Horas,Valor hora ordinaria,Factor,Valor a pagar,Comentario\n';
+    sessions.slice().sort(function(a,b){ return a.start.localeCompare(b.start); }).forEach(function(s){
+      s.detail.forEach(function(d){
+        const comentarioSafe = '"' + (s.comentario||'').replace(/"/g,'""') + '"';
         csv += [fmtDateShort(d.dateKey), fmtTime(s.start), fmtTime(s.end), d.label,
-                d.hours.toFixed(2), Math.round(d.valorHora), d.factor.toFixed(2), Math.round(d.valor)].join(',') + '\n';
+                d.hours.toFixed(2), Math.round(d.valorHora), d.factor.toFixed(2), Math.round(d.valor), comentarioSafe].join(',') + '\n';
       });
     });
-    const total = sessions.reduce((a,s)=>a+s.totalValor,0);
-    csv += '\nEmpleado,'+emp.nombre+'\nCédula,'+emp.cedula+'\nTotal a pagar,'+Math.round(total)+'\n';
+    const total = sessions.reduce(function(a,s){ return a+s.totalValor; },0);
+    csv += '\nCompañero,'+emp.nombre+'\nCédula,'+emp.cedula+'\nTotal a pagar,'+Math.round(total)+'\n';
     const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -894,22 +1219,42 @@ hora extra</button>
   });
 
   $('copyBtn').addEventListener('click', async function(){
-    const emp = employees.find(e=>e.cedula===activeCedula);
-    const total = sessions.reduce((a,s)=>a+s.totalValor,0);
+    const emp = employees.find(function(e){ return e.cedula===activeCedula; });
+    const total = sessions.reduce(function(a,s){ return a+s.totalValor; },0);
     const byType = {};
-    sessions.forEach(s=> s.detail.forEach(d=>{
+    sessions.forEach(function(s){ s.detail.forEach(function(d){
       if(!byType[d.bucketKey]) byType[d.bucketKey] = {hours:0, valor:0, label:d.label};
       byType[d.bucketKey].hours += d.hours;
       byType[d.bucketKey].valor += d.valor;
-    }));
+    }); });
     let text = 'Liquidación de horas extras – '+emp.nombre+' (CC '+emp.cedula+')\n';
-    Object.values(byType).forEach(b=>{ text += '- '+b.label+': '+fmtHours(b.hours)+' → '+fmtCOP(b.valor)+'\n'; });
+    Object.values(byType).forEach(function(b){ text += '- '+b.label+': '+fmtHours(b.hours)+' → '+fmtCOP(b.valor)+'\n'; });
     text += 'Total a pagar: '+fmtCOP(total);
     try{
       await navigator.clipboard.writeText(text);
       showToast('Resumen copiado al portapapeles.');
     }catch(e){ showToast('No se pudo copiar automáticamente.'); }
   });
+
+  // ================= CONSOLIDATED SUMMARY =================
+  $('consolidatedBtn').addEventListener('click', async function(){
+    if(employees.length===0){ showToast('Aún no hay compañeros registrados.'); return; }
+    let html = '';
+    let grandHoras = 0, grandValor = 0;
+    for(let i=0;i<employees.length;i++){
+      const emp = employees[i];
+      const raw = await store.get('sessions:'+emp.cedula);
+      const sess = raw ? JSON.parse(raw) : [];
+      const horas = sess.reduce(function(a,s){ return a+s.totalHours; },0);
+      const valor = sess.reduce(function(a,s){ return a+s.totalValor; },0);
+      grandHoras += horas; grandValor += valor;
+      html += '<div class="cons-row"><div><div class="name">'+emp.nombre+'</div><div class="sub">Cédula '+emp.cedula+' · '+sess.length+' registro(s) · '+fmtHours(horas)+'</div></div><b>'+fmtCOP(valor)+'</b></div>';
+    }
+    $('consolidatedBody').innerHTML = html;
+    $('consolidatedGrandTotal').textContent = fmtCOP(grandValor);
+    $('consolidatedOverlay').hidden = false;
+  });
+  $('closeConsolidatedBtn').addEventListener('click', function(){ $('consolidatedOverlay').hidden = true; });
 
   // ================= INIT =================
   async function init(){
@@ -923,7 +1268,7 @@ hora extra</button>
       return;
     }
     const last = await loadLastActive();
-    activeCedula = (last && employees.some(e=>e.cedula===last)) ? last : employees[0].cedula;
+    activeCedula = (last && employees.some(function(e){ return e.cedula===last; })) ? last : employees[0].cedula;
     await loadSessions(activeCedula);
     renderEmployeeSelect();
     renderProfile();
